@@ -102,8 +102,7 @@ def get_best_split(target_label, data):
         inplace=True,
     )
 
-    # first check whether an ig has computed
-
+    # first check whether an ig has been computed
     # take the last row and compute the sum
 
     if sum(ig_df.iloc[-1, :]) == 0:
