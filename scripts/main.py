@@ -7,6 +7,7 @@ from decision_tree.classification import ClassificationTree
 
 
 if __name__ == "__main__":
+
     # dir path
     path_to_dir = "./data"
     filename = "500_Person_Gender_Height_Weight_Index.csv"

@@ -17,5 +17,3 @@ class RegressionTree(DecisionTree):
             min_information_gain,
             max_categories,
         )
-
-    # implement regression-specific methods

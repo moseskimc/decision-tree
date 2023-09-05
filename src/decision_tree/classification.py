@@ -17,5 +17,3 @@ class ClassificationTree(DecisionTree):
             min_information_gain,
             max_categories,
         )
-
-    # implement classification-specific methods
