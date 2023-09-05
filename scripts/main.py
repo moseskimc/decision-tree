@@ -7,7 +7,6 @@ from decision_tree.classification import ClassificationTree
 
 
 if __name__ == "__main__":
-
     # dir path
     path_to_dir = "./data"
     filename = "500_Person_Gender_Height_Weight_Index.csv"
@@ -28,11 +27,7 @@ if __name__ == "__main__":
     min_samples_split = 20
     min_information_gain = 1e-5
 
-    dt = ClassificationTree(
-        max_depth,
-        min_samples_split,
-        min_information_gain
-    )
+    dt = ClassificationTree(max_depth, min_samples_split, min_information_gain)
 
     # build tree
     dt.train(df, "is_obese")
@@ -41,7 +36,7 @@ if __name__ == "__main__":
     num_obs = df.shape[0]
     preds = []
     for i in range(num_obs):
-        obs_pred = dt.predict(df.iloc[i,:])
+        obs_pred = dt.predict(df.iloc[i, :])
         preds.append(obs_pred)
 
     acc = (np.array(preds) == df["is_obese"]).mean()

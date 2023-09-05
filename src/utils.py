@@ -7,8 +7,8 @@ import numpy as np
 def get_gini_impurity(y):
     """Compoute index of classification
 
-        Args:
-            y (pd.Series): classifcation values
+    Args:
+        y (pd.Series): classifcation values
     """
 
     # first check we have a series
@@ -26,8 +26,7 @@ def get_gini_impurity(y):
 
 
 def get_entropy(y):
-    """Compute entropy given series y
-    """
+    """Compute entropy given series y"""
 
     # first check we have a series
     # if not throw an exception
@@ -39,10 +38,8 @@ def get_entropy(y):
 
     # entropy
     epsilon = 1e-9  # small number
-                    # to avoid taking log of zero
-    entropy = np.sum(
-        -p * np.log2(p + epsilon)  # broadcast
-    )
+    # to avoid taking log of zero
+    entropy = np.sum(-p * np.log2(p + epsilon))  # broadcast
 
     return entropy
 
@@ -50,18 +47,18 @@ def get_entropy(y):
 def get_var(y):
     """Compute variance of random variable
 
-        Args:
-            y (pd.Series): random variable values
+    Args:
+        y (pd.Series): random variable values
     """
 
-    if len(y) == 1: return 0
+    if len(y) == 1:
+        return 0
 
     return y.var()
 
 
 def get_ig(y, mask, impurity=get_entropy):
-    """Compute IG for a single child split
-    """
+    """Compute IG for a single child split"""
 
     prop = sum(mask) / len(mask)
 
@@ -86,7 +83,7 @@ def generate_all_subsets(y):
 
     subsets = []
 
-    for subset_len in range(0, len(y_unique)+1):
+    for subset_len in range(0, len(y_unique) + 1):
         for subset in itertools.combinations(y_unique, subset_len):
             subset_list = list(subset)
 
@@ -96,26 +93,21 @@ def generate_all_subsets(y):
 
 
 def get_best_split(target_label, data):
-    
-    ig_df = data.drop(
-        "is_obese", axis=1
-    ).apply(
-        get_max_ig_split, y=data[target_label]
-    )
+    ig_df = data.drop("is_obese", axis=1).apply(get_max_ig_split, y=data[target_label])
 
     ig_df.rename(
         index=dict(
-            zip(
-                list(range(0,4)), ["max_ig", "max_ig_index", "best_split", "has_ig"]
-            )
-        ), inplace=True
+            zip(list(range(0, 4)), ["max_ig", "max_ig_index", "best_split", "has_ig"])
+        ),
+        inplace=True,
     )
 
     # first check whether an ig has computed
 
     # take the last row and compute the sum
 
-    if sum(ig_df.iloc[-1, :]) == 0: return None, None, None, None
+    if sum(ig_df.iloc[-1, :]) == 0:
+        return None, None, None, None
 
     best_feature = max(ig_df)
 
@@ -134,13 +126,12 @@ def get_max_ig_split(x, y, impurity=get_entropy):
     """
 
     is_numeric = True if x.dtypes != "O" else False
-    
+
     ig_values = []
     split_values = []
 
-
     if is_numeric:
-        options = x.sort_values().unique()[1: ] # we skip the first
+        options = x.sort_values().unique()[1:]  # we skip the first
     # categorical
     else:
         options = generate_all_subsets(x)
@@ -162,13 +153,11 @@ def get_max_ig_split(x, y, impurity=get_entropy):
     max_ig_index = ig_values.index(max_ig)
     best_split = split_values[max_ig_index]
 
-
     return max_ig, best_split, is_numeric, True
 
 
 def make_split(variable, split_value, data, is_numeric):
-    """Split data given boundary or subset
-    """
+    """Split data given boundary or subset"""
 
     if is_numeric:
         mask = data[variable] < split_value
@@ -179,15 +168,14 @@ def make_split(variable, split_value, data, is_numeric):
 
 
 def make_prediction(ser, is_numeric):
-
-    if is_numeric: return ser.mean()
+    if is_numeric:
+        return ser.mean()
 
     return ser.value_counts().idxmax()
 
 
 def pred_obs(observation, tree):
-    """Output tree prediction on observation
-    """
+    """Output tree prediction on observation"""
 
     # start at the root
     cond = list(tree.keys())[0]
@@ -195,10 +183,12 @@ def pred_obs(observation, tree):
     feature, split_type, split_val = cond.split()
 
     if split_type == "<=":
-       # next, we check whether to traverse the further
-       # check whether observations meets condition
-       # splitting into subtrees
-       answer = tree[cond][0] if observation[feature] <= float(split_val) else tree[cond][1]
+        # next, we check whether to traverse the further
+        # check whether observations meets condition
+        # splitting into subtrees
+        answer = (
+            tree[cond][0] if observation[feature] <= float(split_val) else tree[cond][1]
+        )
 
     # if leaf, return value
     if not isinstance(answer, dict):
