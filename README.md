@@ -1,4 +1,5 @@
 # decision-tree
+<img src="https://github.com/moseskimc/decision-tree/actions/workflows/build.yml/badge.svg">
 
 In this repo, we implement a decision tree model from scratch.
 
