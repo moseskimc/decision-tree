@@ -64,19 +64,19 @@ class DecisionTree:
                 subtree = {condition: []}
 
                 # find splits/leaves (via recursion)
-                obese_pos = self.build_tree(left, counter)
+                pos = self.build_tree(left, counter)
 
-                obese_neg = self.build_tree(right, counter)
+                neg = self.build_tree(right, counter)
 
-                # the only time obese_pos equals obese_neg
+                # the only time pos equals neg
                 # is when you have already reached a leaf
                 # and there is a prediction
-                if obese_pos == obese_neg:
-                    subtree = obese_pos
+                if pos == neg:
+                    subtree = pos
                 # otherwise, we have subtrees
                 else:
-                    subtree[condition].append(obese_pos)
-                    subtree[condition].append(obese_neg)
+                    subtree[condition].append(pos)
+                    subtree[condition].append(neg)
             # found a leaf
             else:
                 return make_prediction(
