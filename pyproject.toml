@@ -28,5 +28,5 @@ packages = ["decision_tree"]
 dependencies = {file = ["requirements.txt"]}
 
 [project.urls]
-"Homepage" = "https://github.com/mosesckim/psa_ml"
-"Bug Tracker" = "https://github.com/mosesckim/psa_ml/issues"
+"Homepage" = "https://github.com/moseskimc/decision-tree"
+"Bug Tracker" = "https://github.com/moseskimc/decision-tree/issues"
